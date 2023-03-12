@@ -1,9 +1,15 @@
 import './App.css';
-import { ConnectWalletProvider, getDefaultConnectors, ConnectButton, useConnectionModal } from '@shopify/connect-wallet';
+import { ConnectWalletProvider, getDefaultConnectors } from '@shopify/connect-wallet';
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { sepolia, mainnet, polygon } from "wagmi/chains";
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/navbar/Navbar';
+import Market from './pages/market/Market';
+import Services from './pages/services/Services';
+
+
 
 
 function App() {
@@ -22,16 +28,19 @@ function App() {
     provider
   });
 
-  const {openModal} = useConnectionModal()
 
   return (
     <div className="App">
       <WagmiConfig client={wagmiClient}>
         <ConnectWalletProvider chains={chains}>
-          <div><ConnectButton/></div>
-          <div>
-            <button onClick={openModal}> connect </button>
-          </div>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path='/' element= {<Market />} />
+            <Route path='/services' element= {<Services />} />
+          </Routes>
+        </Router>
+
         </ConnectWalletProvider>
       </WagmiConfig>
     </div>
