@@ -1,13 +1,11 @@
 import './App.css';
-import { ConnectWalletProvider, getDefaultConnectors } from '@shopify/connect-wallet';
+import { ConnectButton, ConnectWalletProvider, getDefaultConnectors } from '@shopify/connect-wallet';
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { sepolia, mainnet, polygon } from "wagmi/chains";
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/navbar/Navbar';
-import Market from './pages/market/Market';
-import Services from './pages/services/Services';
+
+import { Page, LegacyCard, Button } from '@shopify/polaris';
 
 
 
@@ -31,18 +29,27 @@ function App() {
 
   return (
     <div className="App">
+      
       <WagmiConfig client={wagmiClient}>
         <ConnectWalletProvider chains={chains}>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path='/' element= {<Market />} />
-            <Route path='/services' element= {<Services />} />
-          </Routes>
-        </Router>
+        <div className='AppWrapper'>
+          <div><ConnectButton /></div>
+          <div className='AppTitle'>
+            <h1>Meta Estate Rentals</h1>
+          </div>
+          <div className='AppContent'>
+            
+
+          </div>
+        </div>
+          
+          
+          
+ 
 
         </ConnectWalletProvider>
       </WagmiConfig>
+      
     </div>
   );
 }

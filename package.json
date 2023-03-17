@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@shopify/connect-wallet": "^0.2.0",
-    "@shopify/tokengate": "^0.2.0",
+    "@shopify/polaris": "^10.35.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

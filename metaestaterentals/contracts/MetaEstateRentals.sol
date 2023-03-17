@@ -15,12 +15,12 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./IERC4907.sol";
 
 
-contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
+contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, ReentrancyGuard {
     using Strings for string;
 
 
 
-    address erc20Contract; // USDC on evm mainnet
+    address public erc20Contract; // USDC on evm mainnet
 
 
 
@@ -39,8 +39,6 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
     uint256 public rentFeeNative; // ether or other evm native token
 
     uint256 public totalSupply;
-
-    string public baseTokenURI;
 
 
 
@@ -126,20 +124,10 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
     }
 
     /*
-    * Change treasury payout wallet 
+    * Change erc20 //usdt or usdc contract 
     */
     function setUSDAddress(address payable newUSDAddress) public onlyOwner{
         erc20Contract = newUSDAddress;
-    }
-
-
-
-    //---------------------------------------------------------------------------------
-    /**
-    * Change BaseTokenUri 
-    */
-    function setBaseTokenURI(string memory newuri) public onlyOwner {
-        baseTokenURI = newuri;
     }
 
 
@@ -153,9 +141,9 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
     /// @param user  The new user of the NFT
     /// @param expires  UNIX timestamp, The new user could use the NFT before expires
     function setUser(uint256 tokenId, address user, uint64 expires) public virtual override{
-        require(expires <= maxMonthlyRent, "Exceeds max sub period"); //
+        require(expires <= maxMonthlyRent, "Exceeds max sub period"); 
         require(ownerOf(tokenId) == owner(), "property sold, can't rent");
-        require(erc20Contract != address(0)), "erc20 token not set!");
+        require(erc20Contract != address(0), "erc20 token not set!");
         
         IERC20 tokenContract = IERC20(erc20Contract);
 
@@ -234,7 +222,7 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
     /**
      * public subscription
      */
-    function makeMetaEstateToken() 
+    function makeMetaEstateToken(string memory _tokenURI) 
     external
     nonReentrant
     onlyOwner
@@ -245,6 +233,7 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
 
 
         _safeMint(msg.sender, tokenId);
+        _setTokenURI(tokenId, _tokenURI);
         
         totalSupply += 1;
         
@@ -261,16 +250,21 @@ contract MetaEstateRents is ERC721, IERC4907, Ownable, ReentrancyGuard {
     /**
      * @dev See {ERC721Metadata-tokenURI}.
      */
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        require(_exists(tokenId), "nonexistent token");
+    // The following functions are overrides required by Solidity.
 
-        string memory baseURI = _baseURI();
-        return string(abi.encodePacked(baseURI, Strings.toString(tokenId), '.json'));
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+        super._burn(tokenId);
     }
 
-    function _baseURI() internal view override returns (string memory) {
-        return baseTokenURI;
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
     }
+    
 
     
 

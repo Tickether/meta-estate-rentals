@@ -1,11 +1,10 @@
 import Rentals from '../../components/rentals/Rentals';
 import './market.css';
+import { Page, Layout, Button } from '@shopify/polaris';
 
-function Market() {
 
-    const data = []
-    return (
-        <div className="market">
+/*
+<div className="market">
             <div className="marketContainer">
                 <div className="marketListWrapper">
                     {data.map(item=>(
@@ -13,7 +12,16 @@ function Market() {
                     ))}
                 </div>
             </div>
-        </div>
+</div>
+*/
+function Market() {
+
+    const data = []
+    return (
+        <Page>
+      
+    </Page>
+        
   );
 }
 
