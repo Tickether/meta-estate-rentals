@@ -1,0 +1,23 @@
+.marketListWrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 20px;
+    align-items: stretch;
+}
+
+.market{
+    display: flex;
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    justify-content: center;   
+}
+
+.marketContainer{
+    display: flex;
+    width: 80%;
+    margin-top: 100px;
+}

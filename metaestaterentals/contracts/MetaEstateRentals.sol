@@ -19,18 +19,7 @@ contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, Reentra
     using Strings for string;
 
 
-
     address public erc20Contract; // USDC on evm mainnet
-
-
-
-    bool public rentIsActive = false;
-
-    bool public rentNativeIsActive = false;
-
-
-    
-
     
     uint256 public maxMonthlyRent;
 
@@ -39,8 +28,6 @@ contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, Reentra
     uint256 public rentFeeNative; // ether or other evm native token
 
     uint256 public totalSupply;
-
-
 
 
     address payable public treasury = payable(0x7ea9114092eC4379FFdf51bA6B72C71265F33e96);
@@ -103,18 +90,6 @@ contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, Reentra
     }
 
 
-
-    /*   
-    function setSubscriptionFeeNative(uint256 newSubscriptionFeeNative) public onlyOwner {
-        subscriptionFeeNative = newSubscriptionFeeNative;
-    }
-    function setMaxMonthlySubs(uint256 newMaxMonthlySubs) public onlyOwner {
-        maxMonthlySubs = newMaxMonthlySubs;
-    }
-    */
-
-
-
     /*
     * Change treasury payout wallet 
     */
@@ -123,13 +98,13 @@ contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, Reentra
         treasury = newTreasuryAddress;
     }
 
+
     /*
     * Change erc20 //usdt or usdc contract 
     */
     function setUSDAddress(address payable newUSDAddress) public onlyOwner{
         erc20Contract = newUSDAddress;
     }
-
 
 
 
@@ -173,7 +148,7 @@ contract MetaEstateRents is ERC721, ERC721URIStorage, IERC4907, Ownable, Reentra
     /// @param expires  UNIX timestamp, The new user could use the NFT before expires
     function setUserNative(uint256 tokenId, address user, uint64 expires) public  virtual payable {
         require(expires <= maxMonthlyRent, "Exceeds max sub period");
-        require(expires * rentFeeNative == msg.value, 'native token value sent is not correct');
+        require(expires * rentFeeNative == msg.value, "native token value sent is not correct");
         require(ownerOf(tokenId) == owner(), "property sold, can't rent");
         
         uint64 rentPeriod = expires * 2592000; // timestamp for 30days multiplied by months to expire 
