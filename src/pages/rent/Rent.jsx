@@ -103,7 +103,7 @@ function Rent() {
                 <div>
                 {contractReadUserOf?.data === user && <p>Congratulations! You can currently occupy this property until: {new Date((parseInt(contractReadUserExpires?.data?.['_hex'],16))*1000).toString()}</p>}
                 </div>
-                {contractReadUserOf?.data != "0x0000000000000000000000000000000000000000" && contractReadUserOf?.data != user &&(
+                {contractReadUserOf?.data !== "0x0000000000000000000000000000000000000000" && contractReadUserOf?.data !== user &&(
                         <p>Sorry! This property is currently occupied until: {new Date((parseInt(contractReadUserExpires?.data?.['_hex'],16))*1000).toString()}</p>
                 )}   
                 {contractReadUserOf?.data === "0x0000000000000000000000000000000000000000" && 
