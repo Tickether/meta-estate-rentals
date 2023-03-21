@@ -40,7 +40,7 @@ function Rent() {
         watch: true,
     })
 
-    console.log(contractReadUserOf.data)
+    console.log(contractReadUserOf?.data)
 
     const contractReadUserExpires = useContractRead({
         address: "0xB70b94a982A405236b2fBe5cec81F4DD4e0dFFD2",
@@ -51,7 +51,16 @@ function Rent() {
         watch: true,
     })
 
-    console.log(contractReadUserExpires.data)
+    console.log(contractReadUserExpires?.data)
+
+    const contractReadRentFeeNative = useContractRead({
+        address: "0xB70b94a982A405236b2fBe5cec81F4DD4e0dFFD2",
+        abi: MetaEstateRents.abi,
+        functionName: 'rentFeeNative',
+        chainId: 80001,
+    })
+
+    console.log(contractReadRentFeeNative?.data)
 
     const { data: rental, isLoading, error } = useNFT(contract, tokenId);
   
@@ -99,6 +108,9 @@ function Rent() {
                 )}   
                 {contractReadUserOf?.data === "0x0000000000000000000000000000000000000000" && 
                     <>
+                        <div>
+                            <p> {ethers.utils.formatEther(parseInt(contractReadRentFeeNative?.data?.['_hex'],16)) * expires} ETH</p>
+                        </div>
                         <div>
                             <button
                             onClick={handleDecrement}>-

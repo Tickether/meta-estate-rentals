@@ -49,11 +49,6 @@ function App() {
             </div>
           </Router>
         </div>
-        
-          
-          
- 
-
         </ConnectWalletProvider>
       </WagmiConfig>
       
